@@ -1,0 +1,42 @@
+trigger:
+- master
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+  dotNetVersion: '6.0.x'
+  dotNetFramework: 'net6.0'
+  targetRuntime: 'linux-x64'
+
+steps:
+- task: gittools.gittools.setup-gitversion-task.gitversion/setup@0
+  displayName: gitversion/setup
+  inputs:
+    versionSpec: 5.x
+    includePrerelease: true
+
+- task: gittools.gittools.execute-gitversion-task.gitversion/execute@0
+  displayName: gitversion/execute
+
+- bash: |
+    npm install -g eclint
+    eclint check
+  displayName: "eclint check" 
+- task: UseDotNet@2
+  inputs:
+    version: $(dotNetVersion)
+    includePreviewVersions: true
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build'
+
+- script: dotnet pack  --configuration $(buildConfiguration) --include-symbols --output '$(Build.ArtifactStagingDirectory)'
+  displayName: 'dotnet pack'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
