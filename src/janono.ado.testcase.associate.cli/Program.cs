@@ -33,9 +33,9 @@ namespace janono.ado.testcase.associate.cli
             rootCommand.Description = "A app for automaticity associate automated tests with test cases cli.";
 
             rootCommand.Handler = CommandHandler.Create<AuthenticationMethod, string?, Action, string>((optionAuthenticationType, optionAuthenticationToken, optionAction, optionPath) =>
-             {
-                 DoWork(optionAuthenticationType, authValue, optionAction, path);
-             });
+            {
+                DoWork(optionAuthenticationType, authValue, optionAction, path);
+            });
             AnsiConsole.Render(new FigletText("janono.ado.testcase.associate.cli").Color(new Color(102, 51, 153)));
 
             //var image = new CanvasImage(@"D:\repos\janono-pub\janono.ado.testcase.associate\janono.ado.testcase.associate\src\janono.ado.testcase.associate\img\packageIcon.png");
@@ -90,8 +90,8 @@ namespace janono.ado.testcase.associate.cli
             }
 
             var methods = types.SelectMany(x => x.GetMethods())
-                     .Where(y => y.GetCustomAttributes().OfType<janono.ado.testcase.associate.TestCaseAttribute>().Any())
-                     .ToDictionary(z => z.DeclaringType.FullName + "." + z.Name);
+                    .Where(y => y.GetCustomAttributes().OfType<janono.ado.testcase.associate.TestCaseAttribute>().Any())
+                    .ToDictionary(z => z.DeclaringType.FullName + "." + z.Name);
 
             var assoscationList = new List<Association>();
             foreach (var entry in methods)
@@ -284,4 +284,3 @@ namespace janono.ado.testcase.associate.cli
         }
     }
 }
-
