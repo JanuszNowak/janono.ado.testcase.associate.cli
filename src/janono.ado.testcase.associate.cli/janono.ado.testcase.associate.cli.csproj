@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Description>Automaticity associate automated tests with test cases CLI.</Description>
+    <PackageProjectUrl>https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate</PackageProjectUrl>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Company>janono</Company>
+    <Copyright>Copyright © Janusz Nowak 2021</Copyright>
+    <Icon>\img\packageIcon.png</Icon>
+    <PackageTags>Azure DevOps;TestCase;Associate;CLI</PackageTags>
+    <RepositoryUrl>https://dev.azure.com/janono-pub/_git/Janono.Ado.TestCase.Associate</RepositoryUrl>
+    <authors>Janusz Nowak</authors>
+    <id>janono.ado.testcase.associate.cli</id>
+    <Icon>\img\packageIcon.png</Icon>
+    <ApplicationIcon>packageIcon.ico</ApplicationIcon>
+    <title>janono.ado.testcase.associate</title>
+    <StartupObject>janono.ado.testcase.associate.cli.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Spectre.Console" Version="0.41.0" />
+    <PackageReference Include="Spectre.Console.ImageSharp" Version="0.41.0" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\janono.ado.testcase.associate\janono.ado.testcase.associate.csproj" />
+  </ItemGroup>
+
+</Project>
