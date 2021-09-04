@@ -33,7 +33,7 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build'
 
-- script: dotnet pack  --configuration $(buildConfiguration) --include-symbols --output '$(Build.ArtifactStagingDirectory)'
+- script: dotnet publish  --configuration $(buildConfiguration) --output '$(Build.ArtifactStagingDirectory)'
   displayName: 'dotnet pack'
 
 - task: PublishPipelineArtifact@1
