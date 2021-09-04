@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C72CA4D2-5297-46F5-A037-371D5000844D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{DD36C5E8-21CC-4232-9619-BE834039B53B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "janono.ado.testcase.associate.cli", "src\janono.ado.testcase.associate.cli\janono.ado.testcase.associate.cli.csproj", "{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7AAB63E6-8B9E-4952-A6EC-CD1F0D759309}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D} = {C72CA4D2-5297-46F5-A037-371D5000844D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5992F2C5-BF00-4B89-93B4-FECEFEA80FEB}
+	EndGlobalSection
+EndGlobal
