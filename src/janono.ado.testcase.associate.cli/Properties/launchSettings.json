@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "janono.ado.testcase.associate.cli": {
+      "commandName": "Project",
+      "commandLineArgs": "--authMethod PAT --authValue vw6jlxagdzfbnjmrg2pjmwxvx3gyo2wv5euf5nmzahrm7k22cfeq --action Associate --path C:\\Users\\jnno\\Documents\\composite.test-automation\\test\\cta.TestAutomation\\bin\\Debug\\net5.0\\cta.TestAutomation.dll"
+    },
+    "Profile 1": {
+      "commandName": "Project",
+      "commandLineArgs": "--authMethod PAT --authValue --action List --path C:\\Users\\jnno\\Documents\\composite.test-automation\\test\\cta.TestAutomation\\bin\\Debug\\net5.0\\cta.TestAutomation.dll"
+    }
+  }
+}
