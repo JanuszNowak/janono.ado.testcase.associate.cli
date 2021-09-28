@@ -145,7 +145,7 @@ jobs:
     displayName: 'dotnet pack'
   
   - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
-    displayName: 'dotnet build'
+    displayName: 'dotnet publish'
 
   - task: NuGetCommand@2
     displayName: 'NuGet push'
@@ -185,6 +185,11 @@ jobs:
     inputs:
       targetPath: '$(Build.ArtifactStagingDirectory)'
       artifactName: 'drop'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/
+      ArtifactName: 'publish'
 
   - task: DotNetCoreCLI@2
     inputs:
