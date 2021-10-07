@@ -29,4 +29,4 @@
 ![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/janono-pub/Janono.Ado.TestCase.Associate/34)
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/janono-pub/Janono.Ado.TestCase.Associate/34)
 ![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/janono-pub/Janono.Ado.TestCase.Associate/34/master?label=master)
-![Nuget](https://img.shields.io/nuget/dt/janono.ado.testcase.associate)
+![Nuget](https://img.shields.io/nuget/dt/janono.ado.testcase.associate.cli)
