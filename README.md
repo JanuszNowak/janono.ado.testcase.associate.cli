@@ -2,11 +2,6 @@
  janono.ado.testcase.associate.cli
  [![Build Status](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_apis/build/status/janono.ado.testcase.associate.cli-ci?branchName=master)](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_build/latest?definitionId=34&branchName=master)
 
-# janono.ado.testcase.associate
- janono.ado.testcase.associate
- 
- [![Build Status](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_apis/build/status/janono.ado.testcase.associate.cli-ci%20dotnet%206.0?branchName=master)](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_build/latest?definitionId=34&branchName=master)
-
 [![NuGet](https://img.shields.io/nuget/v/janono.ado.testcase.associate.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/janono.ado.testcase.associate.cli/) 
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JanuszNowak_janono.ado.testcase.associate.cli&metric=bugs)](https://sonarcloud.io/dashboard?id=JanuszNowak_janono.ado.testcase.associate.cli)
