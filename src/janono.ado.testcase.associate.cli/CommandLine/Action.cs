@@ -1,11 +1,8 @@
 ﻿namespace janono.ado.testcase.associate.cli
 {
-
-
-    enum Action
+    public enum Action
     {
         List,
         Associate
     }
-
 }

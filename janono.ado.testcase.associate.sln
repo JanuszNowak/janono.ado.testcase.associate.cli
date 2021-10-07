@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "janono.ado.testcase.associa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7AAB63E6-8B9E-4952-A6EC-CD1F0D759309}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "janono.ado.testcase.associate.cli.unittests", "test\janono.ado.testcase.associate.cli.unittests\janono.ado.testcase.associate.cli.unittests.csproj", "{A92CCD95-E7CF-4E42-AAB7-020CF6E97AEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,12 +23,17 @@ Global
 		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A92CCD95-E7CF-4E42-AAB7-020CF6E97AEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A92CCD95-E7CF-4E42-AAB7-020CF6E97AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A92CCD95-E7CF-4E42-AAB7-020CF6E97AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A92CCD95-E7CF-4E42-AAB7-020CF6E97AEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{05AEE88A-63A4-47F5-9CC8-1369767DFD3D} = {C72CA4D2-5297-46F5-A037-371D5000844D}
+		{A92CCD95-E7CF-4E42-AAB7-020CF6E97AEF} = {7AAB63E6-8B9E-4952-A6EC-CD1F0D759309}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5992F2C5-BF00-4B89-93B4-FECEFEA80FEB}

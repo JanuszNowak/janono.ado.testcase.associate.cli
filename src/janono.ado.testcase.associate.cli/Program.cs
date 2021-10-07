@@ -1,5 +1,9 @@
-﻿using System.CommandLine;
+﻿using System;
+using System.Collections.Generic;
+using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
@@ -8,11 +12,14 @@ using Spectre.Console;
 
 namespace janono.ado.testcase.associate.cli
 {
-    partial class Program
+    public class Program
     {
         private static string path;
+
         private static string authValue;
+
         private static Action action;
+
         public static int Main(string[] args)
         {
             var optionAuthenticationType = new Option<AuthenticationMethod>(aliases: new string[] { "--authMethod", "-am" }, description: "Authentication method Oauth Token, PAT,Basic") { IsRequired = true };
@@ -20,7 +27,8 @@ namespace janono.ado.testcase.associate.cli
             var optionAction = new Option<Action>(aliases: new string[] { "--action" }, description: "Action") { IsRequired = true };
             var optionPath = new Option<string>(aliases: new string[] { "--path" }, description: "Path to dlls with dest, supporting '*' wildcards.") { IsRequired = true };
 
-            var rootCommand = new RootCommand {
+            var rootCommand = new RootCommand
+            {
                 optionAuthenticationType,
                 optionAuthenticationToken,
                 optionAction,
@@ -34,34 +42,33 @@ namespace janono.ado.testcase.associate.cli
             });
             AnsiConsole.Render(new FigletText("janono.ado.testcase.associate.cli").Color(new Color(102, 51, 153)));
 
-            //var image = new CanvasImage(@"D:\repos\janono-pub\janono.ado.testcase.associate\janono.ado.testcase.associate\src\janono.ado.testcase.associate\img\packageIcon.png");
-
-            //image.MaxWidth(32);
-            //AnsiConsole.Render(image);
-
-            //fix for System.CommandLine not able to get string from input 
+            // var image = new CanvasImage(@"D:\repos\janono-pub\janono.ado.testcase.associate\janono.ado.testcase.associate\src\janono.ado.testcase.associate\img\packageIcon.png");
+            // image.MaxWidth(32);
+            // AnsiConsole.Render(image);
+            // fix for System.CommandLine not able to get string from input
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i] == "--authValue")
                 {
                     authValue = args[i + 1];
                 }
+
                 if (args[i] == "--path")
                 {
                     path = args[i + 1];
                 }
+
                 if (args[i] == "--action")
                 {
                     action = (janono.ado.testcase.associate.cli.Action)Enum.Parse(typeof(janono.ado.testcase.associate.cli.Action), args[i + 1].ToString());
                 }
-
             }
+
             return rootCommand.Invoke(args);
         }
 
         private static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path)
         {
-
             optionAction = action;
             Assembly assm = AssemblyLoader.LoadWithDependencies(path);
 
@@ -73,13 +80,12 @@ namespace janono.ado.testcase.associate.cli
                 types = assm.GetTypes();
                 foreach (Type type in types)
                 {
-                    //Console.WriteLine(type.FullName);
+                    // Console.WriteLine(type.FullName);
                 }
             }
             catch (Exception ex)
             {
                 AnsiConsole.WriteException(ex);
-
             }
             finally
             {
@@ -132,6 +138,7 @@ namespace janono.ado.testcase.associate.cli
                 {
                     table.AddRow(x.Organization, x.Assembly, x.Method, x.TestCaseId.ToString(), x.NeedUpdateInsert.ToString());
                 }
+
                 AnsiConsole.Render(table);
             }
 
@@ -157,7 +164,9 @@ namespace janono.ado.testcase.associate.cli
         public class Element
         {
             public string op { get; set; }
+
             public string path { get; set; }
+
             public string value { get; set; }
         }
 
@@ -169,37 +178,34 @@ namespace janono.ado.testcase.associate.cli
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", "", personalaccesstoken))));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", string.Empty, personalaccesstoken))));
 
                     var payload = new Element[]
                     {
                         new Element
                         {
-                            op="add",
-                            path="/fields/Microsoft.VSTS.TCM.AutomatedTestName",
-                            //path= "TestProjectNUnit3.Tests.Test2"
-                            value= aso.Method
+                            op = "add",
+                            path = "/fields/Microsoft.VSTS.TCM.AutomatedTestName",
+                            value = aso.Method
                         },
                         new Element
                         {
-                            op="add",
-                            path="/fields/Microsoft.VSTS.TCM.AutomatedTestStorage",
-                            //path= "TestProjectNUnit3.dll"
-                            value= aso.Assembly
+                            op = "add",
+                            path = "/fields/Microsoft.VSTS.TCM.AutomatedTestStorage",
+                            value = aso.Assembly
                         },
                         new Element
                         {
-                            op="add",
-                            path="/fields/Microsoft.VSTS.TCM.AutomatedTestId",
-                            value= Guid.NewGuid().ToString()
+                            op = "add",
+                            path = "/fields/Microsoft.VSTS.TCM.AutomatedTestId",
+                            value = Guid.NewGuid().ToString()
                         },
                         new Element
                         {
-                            op="add",
-                            path="/fields/Microsoft.VSTS.TCM.AutomationStatus",
-                            value= "Automated"
+                            op = "add",
+                            path = "/fields/Microsoft.VSTS.TCM.AutomationStatus",
+                            value = "Automated"
                         }
-
                     };
 
                     var stringPayload = System.Text.Json.JsonSerializer.Serialize(payload);
@@ -209,11 +215,11 @@ namespace janono.ado.testcase.associate.cli
                     string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
                     using (HttpResponseMessage response = client.PatchAsync(url, httpContent).Result)
                     {
-
                         response.EnsureSuccessStatusCode();
                         string responseBody = await response.Content.ReadAsStringAsync();
-                        //Console.WriteLine(responseBody);
-                        //todo
+
+                        // Console.WriteLine(responseBody);
+                        // todo
                         aso.StatusCode = response.StatusCode.ToString();
                     }
                 }
@@ -223,6 +229,7 @@ namespace janono.ado.testcase.associate.cli
                 AnsiConsole.WriteException(ex);
             }
         }
+
         public static async void GetAssigneAutomation(Association aso)
         {
             try
@@ -231,15 +238,16 @@ namespace janono.ado.testcase.associate.cli
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", "", personalaccesstoken))));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", string.Empty, personalaccesstoken))));
 
                     string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
                     using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
                         response.EnsureSuccessStatusCode();
                         string responseBody = await response.Content.ReadAsStringAsync();
-                        //dynamic responseBody = await response.Content.ReadAsStringAsync();
-                        //string requestBody = await new StreamReader(response.Content).ReadToEndAsync();
+
+                        // dynamic responseBody = await response.Content.ReadAsStringAsync();
+                        // string requestBody = await new StreamReader(response.Content).ReadToEndAsync();
                         ResponseWorkItem data = JsonConvert.DeserializeObject<ResponseWorkItem>(responseBody);
 
                         bool needupdate = false;
@@ -256,20 +264,21 @@ namespace janono.ado.testcase.associate.cli
                         {
                             needupdate = true;
                         }
+
                         if (aso.Assembly != data.fields.MicrosoftVSTSTCMAutomatedTestStorage)
                         {
                             needupdate = true;
                         }
-                        //todo what to do when not found
 
-                        //if (needupdate == true)
+                        // todo what to do when not found
+                        // if (needupdate == true)
                         {
                             aso.NeedUpdateInsert = needupdate;
                         }
 
-                        //tod decition make if need or not ned to update
-                        //Console.WriteLine(data);
-                        //AnsiConsole.Write(responseBody);
+                        // tod decition make if need or not ned to update
+                        // Console.WriteLine(data);
+                        // AnsiConsole.Write(responseBody);
                     }
                 }
             }
