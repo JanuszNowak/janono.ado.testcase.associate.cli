@@ -1,6 +1,6 @@
 ﻿namespace janono.ado.testcase.associate.cli
 {
-    enum AuthenticationMethod
+    public enum AuthenticationMethod
     {
         PAT,
         oAuth,

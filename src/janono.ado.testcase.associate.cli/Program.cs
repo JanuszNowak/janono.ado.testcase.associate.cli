@@ -12,7 +12,7 @@ using Spectre.Console;
 
 namespace janono.ado.testcase.associate.cli
 {
-    partial class Program
+    public class Program
     {
         private static string path;
 

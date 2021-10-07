@@ -2,7 +2,7 @@
 
 namespace janono.ado.testcase.associate.cli
 {
-    internal class Association
+    public class Association
     {
         public Association()
         {
