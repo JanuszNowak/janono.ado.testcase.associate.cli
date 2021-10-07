@@ -14,7 +14,6 @@ namespace janono.ado.testcase.associate.cli
         {
             AssemblyDirectories[GetExecutingAssemblyDirectory()] = true;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
-
         }
 
         public static Assembly LoadWithDependencies(string assemblyPath)
@@ -32,8 +31,11 @@ namespace janono.ado.testcase.associate.cli
             {
                 var dependentAssemblyPath = Path.Combine(directoryToScan, dependentAssemblyName);
                 if (File.Exists(dependentAssemblyPath))
+                {
                     return LoadWithDependencies(dependentAssemblyPath);
+                }
             }
+
             return null;
         }
 
@@ -45,6 +47,4 @@ namespace janono.ado.testcase.associate.cli
             return Path.GetDirectoryName(path);
         }
     }
-
-
 }
