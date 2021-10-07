@@ -71,6 +71,7 @@ namespace janono.ado.testcase.associate.cli
 
         [JsonProperty("Microsoft.VSTS.TCM.Steps")]
         public string MicrosoftVSTSTCMSteps { get; set; }
+
         public string href { get; set; }
     }
 
@@ -107,21 +108,30 @@ namespace janono.ado.testcase.associate.cli
     public class Links
     {
         public Self self { get; set; }
+
         public WorkItemUpdates workItemUpdates { get; set; }
+
         public WorkItemRevisions workItemRevisions { get; set; }
+
         public WorkItemHistory workItemHistory { get; set; }
+
         public Html html { get; set; }
+
         public WorkItemType workItemType { get; set; }
+
         public Fields fields { get; set; }
     }
 
     public class ResponseWorkItem
     {
         public int id { get; set; }
+
         public int rev { get; set; }
+
         public Fields fields { get; set; }
+
         public Links _links { get; set; }
+
         public string url { get; set; }
     }
-
 }
