@@ -27,7 +27,7 @@ variables:
   targetRuntime: 'linux-x64'
   projectKey: 'JanuszNowak_janono.ado.testcase.associate'
   system.debug: true
-  
+
 # resources:
 #   repositories:
 #     - repository: janono.ado.templates
@@ -54,7 +54,7 @@ jobs:
   - bash: |
       npm install -g eclint
       eclint check
-    displayName: "eclint check" 
+    displayName: "eclint check"
 
 - job: AgentJobSonar
   displayName: Agent job - Sonar
@@ -67,7 +67,7 @@ jobs:
       versionSpec: 5.x
       includePrerelease: true
   - task: gitversion/execute@0
-    displayName: gitversion/execute  
+    displayName: gitversion/execute
   - task: SonarCloudPrepare@1
     displayName: 'Prepare analysis on SonarCloud'
     inputs:
@@ -79,7 +79,7 @@ jobs:
       cliProjectName: JanuszNowak/janono.ado.testcase.associate.cli
       cliProjectVersion: '$(Build.BuildNumber)'
       extraProperties: |
-        # Additional properties that will be passed to the scanner, 
+        # Additional properties that will be passed to the scanner,
         # Put one key=value per line, example:
         # sonar.exclusions=**/*.bin
                 sonar.branch.name=$(Build.SourceBranchName)
@@ -124,7 +124,7 @@ jobs:
     displayName: 'dotnet build'
 
   - script: dotnet test --configuration $(buildConfiguration) --logger trx --collect:"XPlat Code Coverage"
-  #--collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura  
+  #--collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
     displayName: 'dotnet test'
 
   - task: PublishTestResults@2
@@ -143,7 +143,7 @@ jobs:
 
   - script: dotnet pack  --configuration $(buildConfiguration) --include-symbols --output '$(Build.ArtifactStagingDirectory)'  /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
     displayName: 'dotnet pack'
-  
+
   - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
     displayName: 'dotnet publish'
 
@@ -168,7 +168,7 @@ jobs:
       includeSymbols: true
     continueOnError: true
     enabled: false
-  
+
   # - task: SonarCloudAnalyze@1
   #   enabled: true
   # - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1

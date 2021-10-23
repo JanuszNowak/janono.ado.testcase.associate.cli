@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace janono.ado.testcase.associate.cli
 {
