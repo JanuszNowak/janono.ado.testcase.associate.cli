@@ -5,7 +5,7 @@
 # All files
 [*]
 indent_style = space
-end_of_line = crlf
+#end_of_line = crlf
 trim_trailing_whitespace = true
 insert_final_newline = false
 charset = utf-8
