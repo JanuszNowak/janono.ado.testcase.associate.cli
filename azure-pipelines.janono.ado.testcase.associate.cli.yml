@@ -56,37 +56,37 @@ jobs:
       eclint check
     displayName: "eclint check"
 
-- job: AgentJobSonar
-  displayName: Agent job - Sonar
-  pool:
-    vmImage: ubuntu-latest
-  steps:
-  - task: gitversion/setup@0
-    displayName: gitversion/setup
-    inputs:
-      versionSpec: 5.x
-      includePrerelease: true
-  - task: gitversion/execute@0
-    displayName: gitversion/execute
-  - task: SonarCloudPrepare@1
-    displayName: 'Prepare analysis on SonarCloud'
-    inputs:
-      SonarCloud: sonarcloud.io
-      organization: 'janusznowak-github'
-      scannerMode: CLI
-      configMode: manual
-      cliProjectKey: 'JanuszNowak_janono.ado.testcase.associate.cli'
-      cliProjectName: JanuszNowak/janono.ado.testcase.associate.cli
-      cliProjectVersion: '$(Build.BuildNumber)'
-      extraProperties: |
-        # Additional properties that will be passed to the scanner,
-        # Put one key=value per line, example:
-        # sonar.exclusions=**/*.bin
-                sonar.branch.name=$(Build.SourceBranchName)
-  - task: SonarCloudAnalyze@1
-    displayName: 'Run Code Analysis'
-  - task: SonarCloudPublish@1
-    displayName: 'Publish Quality Gate Result'
+# - job: AgentJobSonar
+#   displayName: Agent job - Sonar
+#   pool:
+#     vmImage: ubuntu-latest
+#   steps:
+#   - task: gitversion/setup@0
+#     displayName: gitversion/setup
+#     inputs:
+#       versionSpec: 5.x
+#       includePrerelease: true
+#   - task: gitversion/execute@0
+#     displayName: gitversion/execute
+#   - task: SonarCloudPrepare@1
+#     displayName: 'Prepare analysis on SonarCloud'
+#     inputs:
+#       SonarCloud: sonarcloud.io
+#       organization: 'janusznowak-github'
+#       scannerMode: CLI
+#       configMode: manual
+#       cliProjectKey: 'JanuszNowak_janono.ado.testcase.associate.cli'
+#       cliProjectName: JanuszNowak/janono.ado.testcase.associate.cli
+#       cliProjectVersion: '$(Build.BuildNumber)'
+#       extraProperties: |
+#         # Additional properties that will be passed to the scanner,
+#         # Put one key=value per line, example:
+#         # sonar.exclusions=**/*.bin
+#                 sonar.branch.name=$(Build.SourceBranchName)
+#   - task: SonarCloudAnalyze@1
+#     displayName: 'Run Code Analysis'
+#   - task: SonarCloudPublish@1
+#     displayName: 'Publish Quality Gate Result'
 
 
 - job: AgentJobMain
