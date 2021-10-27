@@ -1,4 +1,4 @@
-﻿namespace janono.ado.testcase.associate.cli
+namespace janono.ado.testcase.associate.cli
 {
     public enum Action
     {

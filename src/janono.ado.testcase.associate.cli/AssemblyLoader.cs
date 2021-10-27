@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace janono.ado.testcase.associate.cli
     {
         private static readonly ConcurrentDictionary<string, bool> AssemblyDirectories = new ConcurrentDictionary<string, bool>();
 
-        static AssemblyLoader()
-        {
-            AssemblyDirectories[GetExecutingAssemblyDirectory()] = true;
-            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
-        }
+        //static AssemblyLoader()
+        //{
+        //    AssemblyDirectories[GetExecutingAssemblyDirectory()] = true;
+        //    AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+        //}
 
         public static Assembly LoadWithDependencies(string assemblyPath)
         {
@@ -22,29 +22,29 @@ namespace janono.ado.testcase.associate.cli
             return Assembly.LoadFile(assemblyPath);
         }
 
-        private static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
-        {
-            var dependentAssemblyName = args.Name.Split(',')[0] + ".dll";
-            var directoriesToScan = AssemblyDirectories.Keys.ToList();
+        //private static Assembly ResolveAssembly(object sender, ResolveEventArgs args)
+        //{
+        //    var dependentAssemblyName = args.Name.Split(',')[0] + ".dll";
+        //    var directoriesToScan = AssemblyDirectories.Keys.ToList();
 
-            foreach (var directoryToScan in directoriesToScan)
-            {
-                var dependentAssemblyPath = Path.Combine(directoryToScan, dependentAssemblyName);
-                if (File.Exists(dependentAssemblyPath))
-                {
-                    return LoadWithDependencies(dependentAssemblyPath);
-                }
-            }
+        //    foreach (var directoryToScan in directoriesToScan)
+        //    {
+        //        var dependentAssemblyPath = Path.Combine(directoryToScan, dependentAssemblyName);
+        //        if (File.Exists(dependentAssemblyPath))
+        //        {
+        //            return LoadWithDependencies(dependentAssemblyPath);
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        private static string GetExecutingAssemblyDirectory()
-        {
-            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            var uri = new UriBuilder(codeBase);
-            var path = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(path);
-        }
+        //private static string GetExecutingAssemblyDirectory()
+        //{
+        //    var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+        //    var uri = new UriBuilder(codeBase);
+        //    var path = Uri.UnescapeDataString(uri.Path);
+        //    return Path.GetDirectoryName(path);
+        //}
     }
 }
