@@ -14,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "janono.ado.testcase.associa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample.for_unit_t_est.01", "samples\sample.for.t_ests.01\sample.for_unit_t_est.01\sample.for_unit_t_est.01.csproj", "{EF338545-251F-4ABD-9B3D-14F32A4922CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.for_unit_t_est.02", "samples\sample.for_unit_t_est.02\sample.for_unit_t_est.02.csproj", "{67641341-E1C8-474A-B72E-6BA617A4FB41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample.for_unit_t_est.02", "samples\sample.for_unit_t_est.02\sample.for_unit_t_est.02.csproj", "{67641341-E1C8-474A-B72E-6BA617A4FB41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.for_unit_t_est.03", "samples\sample.for_unit_t_est.03\sample.for_unit_t_est.03.csproj", "{B5FAF295-843E-44D3-8BAB-EFBDA23B01B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample.for_unit_t_est.03", "samples\sample.for_unit_t_est.03\sample.for_unit_t_est.03.csproj", "{B5FAF295-843E-44D3-8BAB-EFBDA23B01B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
