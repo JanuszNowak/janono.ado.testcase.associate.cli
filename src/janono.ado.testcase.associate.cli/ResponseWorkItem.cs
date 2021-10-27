@@ -1,9 +1,11 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using Newtonsoft.Json;
 
 namespace janono.ado.testcase.associate.cli
 {
+    [ExcludeFromCodeCoverage]
     public class Fields
     {
         [JsonProperty("System.AreaPath")]
@@ -75,36 +77,43 @@ namespace janono.ado.testcase.associate.cli
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class Self
     {
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class WorkItemUpdates
     {
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class WorkItemRevisions
     {
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class WorkItemHistory
     {
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class Html
     {
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class WorkItemType
     {
         public string href { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class Links
     {
         public Self self { get; set; }
@@ -122,6 +131,7 @@ namespace janono.ado.testcase.associate.cli
         public Fields fields { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public class ResponseWorkItem
     {
         public int id { get; set; }

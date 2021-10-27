@@ -18,7 +18,7 @@ namespace janono.ado.testcase.associate.cli
 
         public Guid AutomatedTestId { get; set; }
 
-        public bool NeedUpdateInsert { get; internal set; }
+        public bool NeedUpdateInsert { get; set; }
 
         public string StatusCode { get; internal set; }
     }
