@@ -7,7 +7,7 @@ janono.ado.testcase.associate is an extension for automatic association of test 
 Extension was created as current aproach for association is [manual activity](https://docs.microsoft.com/en-us/azure/devops/test/associate-automated-test-with-test-case?view=azure-devops) activty for each test case with can be very time consuming, susceptible to mistakes (as each manual activity), time costly in maintenance. Current aporach also requires [Visual Studio](https://visualstudio.microsoft.com/pl/) with is not needed in case of using extension.
 
 Extension consists of 2 components
-* [Nuget package](https://www.nuget.org/packages/janono.ado.testcase.associate/) [janono.ado.testcase.associate](https://github.com/JanuszNowak/janono.ado.testcase.associate) that containse decoration attribute, to mark test and organization [![NuGet](https://img.shields.io/nuget/v/janono.ado.testcase.associate.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/janono.ado.testcase.associate/) 
+* [Nuget package](https://www.nuget.org/packages/janono.ado.testcase.associate/) [janono.ado.testcase.associate](https://github.com/JanuszNowak/janono.ado.testcase.associate) that containse decoration attribute, to mark test and organization [![NuGet](https://img.shields.io/nuget/v/janono.ado.testcase.associate.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/janono.ado.testcase.associate/)
 * CLI that is executing actions like assocation [janono.ado.testcase.associate.cli](https://github.com/JanuszNowak/janono.ado.testcase.associate.cli)
 
 ![janono.ado.testcase.associate](/img/end2.png)
