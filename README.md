@@ -2,6 +2,17 @@
  janono.ado.testcase.associate.cli
  [![Build Status](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_apis/build/status/janono.ado.testcase.associate.cli-ci?branchName=master)](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_build/latest?definitionId=34&branchName=master)
 
+janono.ado.testcase.associate is an extension for automatic association of test methods from code to [Test Cases](https://docs.microsoft.com/en-us/azure/devops/test/create-a-test-plan?view=azure-devops) in [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) [Test Plans](https://azure.microsoft.com/en-us/services/devops/test-plans/).
+
+Extension was created as current aproach for association is [manual activity](https://docs.microsoft.com/en-us/azure/devops/test/associate-automated-test-with-test-case?view=azure-devops) activty for each test case with can be very time consuming, susceptible to mistakes (as each manual activity), time costly in maintenance. Current aporach also requires [Visual Studio](https://visualstudio.microsoft.com/pl/) with is not needed in case of using extension.
+
+Extension consists of 2 components
+* [Nuget package](https://www.nuget.org/packages/janono.ado.testcase.associate/) [janono.ado.testcase.associate](https://github.com/JanuszNowak/janono.ado.testcase.associate) that containse decoration attribute, to mark test and organization [![NuGet](https://img.shields.io/nuget/v/janono.ado.testcase.associate.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/janono.ado.testcase.associate/) 
+* CLI that is executing actions like assocation [janono.ado.testcase.associate.cli](https://github.com/JanuszNowak/janono.ado.testcase.associate.cli)
+
+![janono.ado.testcase.associate](/img/end2.png)
+
+
 [![NuGet](https://img.shields.io/nuget/v/janono.ado.testcase.associate.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/janono.ado.testcase.associate.cli/)
 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=JanuszNowak_janono.ado.testcase.associate.cli&metric=bugs)](https://sonarcloud.io/dashboard?id=JanuszNowak_janono.ado.testcase.associate.cli)
