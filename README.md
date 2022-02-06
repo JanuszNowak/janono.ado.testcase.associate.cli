@@ -27,30 +27,26 @@
 ![Nuget](https://img.shields.io/nuget/dt/janono.ado.testcase.associate.cli)
 
 
-https://docs.microsoft.com/en-us/azure/devops/test/associate-automated-test-with-test-case?view=azure-devops
 
 
+## Getting started
 
-Create Test Porject or open existing, supported any with MSTest, NUnit, xUnit writen in .NET Core or .NET Framework version.
+* Create Test Porject or open existing, supported any with [MSTest](https://github.com/microsoft/testfx), [NUnit](https://nunit.org/), [xUnit](https://github.com/xunit/xunit) writen in [.NET Core](https://github.com/dotnet/core) or [.NET Framework](https://dotnet.microsoft.com/en-us/download/dotnet-framework) version.
 
-Add latest nuget package "janono.ado.testcase.associate" from https://www.nuget.org/packages/janono.ado.testcase.associate/
+* Add latest nuget package "janono.ado.testcase.associate" from https://www.nuget.org/packages/janono.ado.testcase.associate/ [![NuGet](https://img.shields.io/nuget/v/janono.ado.testcase.associate.svg?style=flat-square&label=nuget)](https://www.nuget.org/packages/janono.ado.testcase.associate/).
 
-
-On Test Class level add organization atrribute [janono.ado.testcase.associate.Organization("janono-pub")] where value "janono-pub" points to your azure devops organization name.
-
-On Test Method  level add test case attribure [janono.ado.testcase.associate.TestCase(1)]
+<!-- ![janono.ado.testcase.associate](/img/5_add_nuget.png) -->
 
 
-Optionaly add using statment namespace "using janono.ado.testcase.associate" to use shor name for atrributes
-[janono.ado.testcase.associate.Organization("janono-pub")] ->  [Organization("janono-pub")]
-[janono.ado.testcase.associate.Organization("janono-pub")] ->  [TestCase(1)]
+* On Test Class level add organization atrribute ```[janono.ado.testcase.associate.Organization("janono-pub")]``` where replace value "janono-pub" your azure devops organization name.
 
-
+```cs
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExampleTestProject
 {
     [TestClass]
+    [janono.ado.testcase.associate.Organization("janono-pub")] //<---
     public class UnitTest1
     {
         [TestMethod]
@@ -62,7 +58,12 @@ namespace ExampleTestProject
         }
     }
 }
+```
 
+
+* On Test Method  level add test case attribure ```[janono.ado.testcase.associate.TestCase(5)]```  where repalce '5' with yours 'test case id' for with you want to assocate automation.
+
+```cs
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ExampleTestProject
@@ -72,7 +73,7 @@ namespace ExampleTestProject
     public class UnitTest1
     {
         [TestMethod]
-        [janono.ado.testcase.associate.TestCase(1)]
+        [janono.ado.testcase.associate.TestCase(5)] //<---
         public void TestMethod1()
         {
             //yours test method content
@@ -81,19 +82,23 @@ namespace ExampleTestProject
         }
     }
 }
+```
 
-
+* Optionaly add using statment namespace "using janono.ado.testcase.associate" to use shor name for atrributes
+```[janono.ado.testcase.associate.Organization("janono-pub")] ->  [Organization("janono-pub")]```
+```[janono.ado.testcase.associate.Organization("janono-pub")] ->  [TestCase(5)]```
+```cs
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using janono.ado.testcase.associate;
+using janono.ado.testcase.associate; //<---
 
 namespace ExampleTestProject
 {
     [TestClass]
-    [Organization("janono-pub")]
+    [Organization("janono-pub")] //<---
     public class UnitTest1
     {
         [TestMethod]
-        [TestCase(1)]
+        [TestCase(5)] //<---
         public void TestMethod1()
         {
             //yours test method content
@@ -102,36 +107,43 @@ namespace ExampleTestProject
         }
     }
 }
+```
+* Build projects or solution for generating ddl assemby for tests
 
-you are almoust ready to go, normalny you
+* Download latest CLI release [janono.ado.testcase.associate.cli](https://github.com/JanuszNowak/janono.ado.testcase.associate.cli/releases) for your platform Windwos, MacOs, [Linux](https://en.wikipedia.org/wiki/Linux) as cli is writen in cross pltform [.NET Core.](https://github.com/dotnet/core). Extract to folder where you would like to keep it.
+
+* Open console with you are using, go to folder where you extract cli. Type "janono.ado.testcase.associate.cli.exe" press enter, now you will see the posible options.
+![janono.ado.testcase.associate](/img/cli.png)
+
+```
+    Options:
+    -am, --authMethod <Basic|oAuth|PAT> (REQUIRED)  Authentication method Oauth Token, PAT,Basic
+    --authValue <authValue> (REQUIRED)              The password, Personal Access Token or OAuth Token to authenticate
+    --action <Associate|List> (REQUIRED)            Action
+    --path <path> (REQUIRED)                        Path to dlls with tests, supporting '*' wildcards.
+    --version                                       Show version information
+    -?, -h, --help                                  Show help and usage information
+```
+
+* Pass parameters for CLI
+    * --authMethod "PAT"
+    * [PAT (personal access token)](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
+    * --path where you store
+
+
+<!-- normalny you
 would open test exproler from visual studio and then find corepoding test,
 then you would connect from Team Explorer to yours Azure DevOps organization,
 Then you will query for specitc test case Id for ith oyu would like to assocate or run query to find it.
-All that you will repat or update  for each test case for with you have automation.
+All that you will repat or update  for each test case for with you have automation.  -->
+
+* Use
+
+## Features planned
+* Add support for for [Azure devops server](https://azure.microsoft.com/pl-pl/services/devops/server/).
+* Add [Azure DevOps Marketplace](https://marketplace.visualstudio.com/) extension with dedicated build task for making automatic association.
+* Generate CLI for multiple platforms.
 
 
-
-
-Add suport from Azure devops server
-Add extension to Azure devops Market with dedicated build task for making auomtatic association.
-
-
-
-
-Download latest release from https://github.com/JanuszNowak/janono.ado.testcase.associate.cli/releases for your platform Windwos, MacOs, Linux as cli is writen in cross pltform .NET Core.
-
-Extract to folder where you would like to keep it.
-Open console with you are using, go to folder where you extract cli,
-Type janono.ado.testcase.associate.cli.exe press enter, now you will see the posible options
-
-Options:
-  -am, --authMethod <Basic|oAuth|PAT> (REQUIRED)  Authentication method Oauth Token, PAT,Basic
-  --authValue <authValue> (REQUIRED)              The password, Personal Access Token or OAuth Token to authenticate
-  --action <Associate|List> (REQUIRED)            Action
-  --path <path> (REQUIRED)                        Path to dlls with tests, supporting '*' wildcards.
-  --version                                       Show version information
-  -?, -h, --help                                  Show help and usage information
-
-
-
-
+## Communication
+[Gitter](https://gitter.im/JanuszNowak/janono.ado.testcase.associate)
