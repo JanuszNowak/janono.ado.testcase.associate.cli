@@ -3,6 +3,7 @@
     <Version>0.1.0</Version>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
+    <!-- <RuntimeIdentifier>win-x64;linux-x64;osx-x64</RuntimeIdentifier> -->
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Description>Automaticity associate automated tests with test cases CLI.</Description>
     <PackageProjectUrl>https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate</PackageProjectUrl>

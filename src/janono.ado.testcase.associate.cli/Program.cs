@@ -26,7 +26,7 @@ namespace janono.ado.testcase.associate.cli
             var optionAuthenticationType = new Option<AuthenticationMethod>(aliases: new string[] { "--authMethod", "-am" }, description: "Authentication method Oauth Token, PAT,Basic") { IsRequired = true };
             var optionAuthenticationToken = new Option<string>("--authValue", description: "The password, Personal Access Token or OAuth Token to authenticate") { IsRequired = true };
             var optionAction = new Option<Action>(aliases: new string[] { "--action" }, description: "Action") { IsRequired = true };
-            var optionPath = new Option<string>(aliases: new string[] { "--path" }, description: "Path to dlls with dest, supporting '*' wildcards.") { IsRequired = true };
+            var optionPath = new Option<string>(aliases: new string[] { "--path" }, description: "Path to dll with tests, supporting '*' wildcards.") { IsRequired = true };
 
             var rootCommand = new RootCommand
             {
@@ -35,13 +35,13 @@ namespace janono.ado.testcase.associate.cli
                 optionAction,
                 optionPath
             };
-            rootCommand.Description = "A app for automaticity associate automated tests with test cases cli.";
+            rootCommand.Description = "A app for automatically associate automated tests with test cases cli.";
 
             rootCommand.Handler = CommandHandler.Create<AuthenticationMethod, string?, Action, string>((optionAuthenticationType, optionAuthenticationToken, optionAction, optionPath) =>
             {
                 DoWork(optionAuthenticationType, authValue, optionAction, path);
             });
-            AnsiConsole.Render(new FigletText("janono.ado.testcase.associate.cli").Color(new Color(102, 51, 153)));
+            AnsiConsole.Write(new FigletText("janono.ado.testcase.associate.cli").Color(new Color(102, 51, 153)));
 
             // fix for System.CommandLine not able to get string from input
             for (int i = 0; i < args.Length; i++)
@@ -68,7 +68,7 @@ namespace janono.ado.testcase.associate.cli
         internal static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path)
         {
             optionAction = action;
-            var assoscationList = ScanAssemblyForTestCase(path);
+            var associationList = ScanAssemblyForTestCase(path);
 
             var table = new Table() { Title = new TableTitle("Tests found in assemblies") };
             table.AddColumn("Organization");
@@ -76,13 +76,12 @@ namespace janono.ado.testcase.associate.cli
             table.AddColumn("Method");
             table.AddColumn("TestCaseId");
 
-            foreach (Association x in assoscationList)
+            foreach (Association x in associationList)
             {
                 table.AddRow(x.Organization, x.Assembly, x.Method, x.TestCaseId.ToString());
             }
 
-
-            AnsiConsole.Render(table);
+            AnsiConsole.Write(table);
 
             var client = GetHttpAdoClient("PAT", authValue);
 
@@ -95,14 +94,14 @@ namespace janono.ado.testcase.associate.cli
                 table.AddColumn("TestCaseId");
                 table.AddColumn("NeedUpdateInsert");
 
-                CheckAssignedAutomationOnOrganizationList(assoscationList, client);
+                CheckAssignedAutomationOnOrganizationList(associationList, client);
 
-                foreach (Association x in assoscationList)
+                foreach (Association x in associationList)
                 {
                     table.AddRow(x.Organization, x.Assembly, x.Method, x.TestCaseId.ToString(), x.NeedUpdateInsert.ToString());
                 }
 
-                AnsiConsole.Render(table);
+                AnsiConsole.Write(table);
             }
 
             if (optionAction == Action.Associate)
@@ -114,23 +113,23 @@ namespace janono.ado.testcase.associate.cli
                 table.AddColumn("TestCaseId");
                 table.AddColumn("StatusCode");
 
-                AssigneAutomationList(assoscationList, client);
+                AssigneAutomationList(associationList, client);
 
-                foreach (Association x in assoscationList.Where(x => x.NeedUpdateInsert == true))
+                foreach (Association x in associationList.Where(x => x.NeedUpdateInsert == true))
                 {
                     table.AddRow(x.Organization, x.Assembly, x.Method, x.TestCaseId.ToString(), x.StatusCode);
                 }
 
-                AnsiConsole.Render(table);
+                AnsiConsole.Write(table);
             }
         }
 
         public static HttpClient GetHttpAdoClient(string authType, string authValue)
         {
             HttpClient client = new HttpClient();
-            var personalaccesstoken = authValue;
+            var pat = authValue;
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", string.Empty, personalaccesstoken))));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{string.Empty}:{pat}")));
             return client;
         }
 
@@ -182,7 +181,7 @@ namespace janono.ado.testcase.associate.cli
                     .Where(y => y.GetCustomAttributes().OfType<janono.ado.testcase.associate.TestCaseAttribute>().Any())
                     .ToDictionary(z => z.DeclaringType.FullName + "." + z.Name);
 
-            var assoscationList = new List<Association>();
+            var associationList = new List<Association>();
             foreach (var entry in methods)
             {
                 var classAttribute = entry.Value.ReflectedType.GetCustomAttributes(typeof(janono.ado.testcase.associate.OrganizationAttribute), false);
@@ -191,10 +190,10 @@ namespace janono.ado.testcase.associate.cli
                 var b = ((janono.ado.testcase.associate.TestCaseAttribute)attrs[0]).testCaseId;
                 var assemblyStorage = entry.Value.ReflectedType.Assembly.ManifestModule.Name;
                 var association = new Association() { Organization = org.ToString(), Assembly = assemblyStorage.ToString(), Method = entry.Value.DeclaringType.FullName + "." + entry.Value.Name, TestCaseId = b };
-                assoscationList.Add(association);
+                associationList.Add(association);
             }
 
-            var c = assoscationList.GroupBy(x => x.TestCaseId);
+            var c = associationList.GroupBy(x => x.TestCaseId);
             var d = c.Where(c => c.Count() > 1).ToList();
             if (d.Count() > 0)
             {
@@ -203,9 +202,8 @@ namespace janono.ado.testcase.associate.cli
                 throw ex;
             }
 
-            return assoscationList;
+            return associationList;
         }
-
 
         public class Element
         {
@@ -220,12 +218,6 @@ namespace janono.ado.testcase.associate.cli
         {
             try
             {
-                //var personalaccesstoken = authValue;
-                //using (HttpClient client = new HttpClient())
-                //{
-                //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes(string.Format("{0}:{1}", string.Empty, personalaccesstoken))));
-
                 var payload = new Element[]
                 {
                         new Element
@@ -256,19 +248,14 @@ namespace janono.ado.testcase.associate.cli
 
                 var stringPayload = System.Text.Json.JsonSerializer.Serialize(payload);
 
-                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json-patch+json");
                 string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
                 using (HttpResponseMessage response = client.PatchAsync(url, httpContent).Result)
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
-
-                    // Console.WriteLine(responseBody);
-                    // todo
                     aso.StatusCode = response.StatusCode.ToString();
                 }
-                //}
             }
             catch (Exception ex)
             {
@@ -286,8 +273,6 @@ namespace janono.ado.testcase.associate.cli
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
 
-                    // dynamic responseBody = await response.Content.ReadAsStringAsync();
-                    // string requestBody = await new StreamReader(response.Content).ReadToEndAsync();
                     ResponseWorkItem data = JsonConvert.DeserializeObject<ResponseWorkItem>(responseBody);
 
                     bool needupdate = false;
