@@ -95,7 +95,6 @@ namespace janono.ado.testcase.associate.cli.unittests
         ////    // Arrange
         ////    string[] input = System.Array.Empty<string>();
 
-
         ////    // Act
         ////    // Assert
         ////    using (StringWriter sw = new StringWriter())
