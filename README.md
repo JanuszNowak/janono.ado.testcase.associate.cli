@@ -110,7 +110,7 @@ namespace ExampleTestProject
 ```
 * Build projects or solution for generating ddl assemby for tests
 
-* Download latest CLI release [janono.ado.testcase.associate.cli](https://github.com/JanuszNowak/janono.ado.testcase.associate.cli/releases) for your platform Windwos, MacOs, [Linux](https://en.wikipedia.org/wiki/Linux) as cli is writen in cross pltform [.NET Core.](https://github.com/dotnet/core). Extract to folder where you would like to keep it.
+* Download latest CLI release [janono.ado.testcase.associate.cli](https://github.com/JanuszNowak/janono.ado.testcase.associate.cli/releases) for your platform Windwos, MacOs, [Linux](https://en.wikipedia.org/wiki/Linux) as cli is writen in cross pltform [.NET Core](https://github.com/dotnet/core). Extract to folder where you would like to keep it.
 
 * Open console with you are using, go to folder where you extract cli. Type "janono.ado.testcase.associate.cli.exe" press enter, now you will see the posible options.
 ![janono.ado.testcase.associate](/img/cli.png)
@@ -126,18 +126,25 @@ namespace ExampleTestProject
 ```
 
 * Pass parameters for CLI
-    * --authMethod "PAT"
-    * [PAT (personal access token)](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
-    * --path where you store
+    * --authMethod PAT or oAuth(in comming future)
+    * --authMethod "PAT" [PAT (personal access token)](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
+    * --path to dll file with test for association
+    * --action "List" for scan dll test assembly and check if need to update assocication, or "Associate" for association test medthods to test cases also cover update case
 
+* Example --action "List" ```janono.ado.testcase.associate.cli.exe --authMethod PAT --authValue [yours PAT] --path D:\ExampleTestProject\bin\Release\net6.0\ExampleTestProject.dll --action List```
+![janono.ado.testcase.associate](/img/cli_List.png)
+
+* Example --action "Associate" ```janono.ado.testcase.associate.cli.exe --authMethod PAT --authValue [yours PAT] --path D:\ExampleTestProject\bin\Release\net6.0\ExampleTestProject.dll --action Associate```
+![janono.ado.testcase.associate](/img/cli_Associate.png)
+
+* Result, now on test case workitem on "Associated Automation" tab you will see automatically associated automation with will be executed [run automated tests from test plans](https://docs.microsoft.com/en-us/azure/devops/test/run-automated-tests-from-test-hub?view=azure-devops).
+![janono.ado.testcase.associate](/img/end_result.png)
 
 <!-- normalny you
 would open test exproler from visual studio and then find corepoding test,
 then you would connect from Team Explorer to yours Azure DevOps organization,
 Then you will query for specitc test case Id for ith oyu would like to assocate or run query to find it.
 All that you will repat or update  for each test case for with you have automation.  -->
-
-* Use
 
 ## Features planned
 * Add support for for [Azure devops server](https://azure.microsoft.com/pl-pl/services/devops/server/).
