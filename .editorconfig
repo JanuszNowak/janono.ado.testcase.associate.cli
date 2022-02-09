@@ -5,16 +5,23 @@
 # All files
 [*]
 indent_style = space
-#end_of_line = crlf
-trim_trailing_whitespace = true
-insert_final_newline = false
 charset = utf-8
+trim_trailing_whitespace = true
+end_of_line = crlf
+insert_final_newline = false
 
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
-insert_final_newline = true
+insert_final_newline = false
 charset = utf-8
+
+[*.json]
+insert_final_newline = true
+
+[*.{yml,yaml}]
+indent_size = 2
+insert_final_newline = true
 
 # Xml files
 [*.xml]
@@ -22,7 +29,6 @@ indent_size = 2
 # sln file
 [*.sln]
 indent_style = tab
-insert_final_newline = true
 ###############################
 # .NET Coding Conventions     #
 ###############################

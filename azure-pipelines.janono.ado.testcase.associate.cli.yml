@@ -15,17 +15,17 @@ pr:
     include:
     - '*' # same as '/' for the repository root
     exclude:
-    - 'docs/*' # same as 'docs/'
+    - docs/*   # same as 'docs/'
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
-  buildConfiguration: 'Release'
-  dotNetVersion: '6.0.x'
-  dotNetFramework: 'net6.0'
-  targetRuntime: 'linux-x64'
-  projectKey: 'JanuszNowak_janono.ado.testcase.associate'
+  buildConfiguration: Release
+  dotNetVersion: 6.0.x
+  dotNetFramework: net6.0
+  targetRuntime: linux-x64
+  projectKey: JanuszNowak_janono.ado.testcase.associate
   system.debug: true
 
 # resources:
@@ -54,7 +54,18 @@ jobs:
   - bash: |
       npm install -g eclint
       eclint check
-    displayName: "eclint check"
+    displayName: eclint check
+
+- job: AgentJob_PreCommit
+  displayName: Agent job - PreCommit
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - script: |
+      pip install pre-commit
+      pre-commit --version
+      pre-commit run --all-files
+    displayName: Execture pre-commit
 
 # - job: AgentJobSonar
 #   displayName: Agent job - Sonar
@@ -105,13 +116,13 @@ jobs:
 
   - task: DownloadSecureFile@1
     name: janonosnk
-    displayName: 'Download secure file'
+    displayName: Download secure file
     inputs:
       secureFile: janono.snk
 
   - task: PowerShell@2
     inputs:
-      targetType: 'inline'
+      targetType: inline
       script: |
         Get-ChildItem env:
 
@@ -121,49 +132,49 @@ jobs:
       includePreviewVersions: true
 
   - script: dotnet build --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
-    displayName: 'dotnet build'
+    displayName: dotnet build
 
   - script: dotnet test --configuration $(buildConfiguration) --logger trx --collect:"XPlat Code Coverage"
   #--collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
-    displayName: 'dotnet test'
+    displayName: dotnet test
 
   - task: PublishTestResults@2
-    displayName: 'Publish Test Results **/TestResults/*.trx'
+    displayName: Publish Test Results **/TestResults/*.trx
     inputs:
       testResultsFormat: VSTest
       testResultsFiles: '**/TestResults/*.trx'
       mergeTestResults: true
 
   - task: PublishCodeCoverageResults@1
-    displayName: 'Publish code coverage'
+    displayName: Publish code coverage
     inputs:
       codeCoverageTool: Cobertura
-      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.cobertura.xml'
+      summaryFileLocation: $(System.DefaultWorkingDirectory)/**/*coverage.cobertura.xml
 
 
   - script: dotnet pack  --configuration $(buildConfiguration) --include-symbols --output '$(Build.ArtifactStagingDirectory)'  /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
-    displayName: 'dotnet pack'
+    displayName: dotnet pack
 
   - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
-    displayName: 'dotnet publish'
+    displayName: dotnet publish
 
   - task: NuGetCommand@2
-    displayName: 'NuGet push'
+    displayName: NuGet push
     inputs:
       command: push
       nuGetFeedType: external
-      publishFeedCredentials: 'nuget.org_janono.ado.testcase.associate.cli'
+      publishFeedCredentials: nuget.org_janono.ado.testcase.associate.cli
       allowPackageConflicts: true
       includeSymbols: true
     continueOnError: true
     enabled: false
 
   - task: NuGetCommand@2
-    displayName: 'NuGet push'
+    displayName: NuGet push
     inputs:
       command: push
       nuGetFeedType: external
-      publishFeedCredentials: 'nuget.pkg.github.com_janono.ado.testcase.associate.cli'
+      publishFeedCredentials: nuget.pkg.github.com_janono.ado.testcase.associate.cli
       allowPackageConflicts: true
       includeSymbols: true
     continueOnError: true
@@ -175,7 +186,7 @@ jobs:
   #   displayName: 'Publish Quality Gate Result'
 
   - task: mspremier.BuildQualityChecks.QualityChecks-task.BuildQualityChecks@8
-    displayName: 'Check build quality'
+    displayName: Check build quality
     inputs:
       checkWarnings: true
       checkCoverage: true
@@ -183,43 +194,43 @@ jobs:
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: '$(Build.ArtifactStagingDirectory)'
-      artifactName: 'drop'
+      targetPath: $(Build.ArtifactStagingDirectory)
+      artifactName: drop
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact'
+    displayName: Publish Artifact
     inputs:
       PathtoPublish: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/
-      ArtifactName: 'publish'
+      ArtifactName: publish
 
   - task: DotNetCoreCLI@2
     inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-      nuGetFeedType: 'internal'
-      publishVstsFeed: 'janono.ado.testcase.associate.cli'
+      command: push
+      packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
+      nuGetFeedType: internal
+      publishVstsFeed: janono.ado.testcase.associate.cli
     enabled: false
     continueOnError: true
 
   - task: DotNetCoreCLI@2
     inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'nuget.org_janono.ado.testcase.associate.cli'
+      command: push
+      packagesToPush: $(Build.ArtifactStagingDirectory)/*.nupkg
+      nuGetFeedType: external
+      publishFeedCredentials: nuget.org_janono.ado.testcase.associate.cli
     enabled: false
     continueOnError: true
   - task: GitHubRelease@1
-    displayName: 'GitHub release (create)'
+    displayName: GitHub release (create)
     inputs:
-      gitHubConnection: 'GitHub connection 1'
-      repositoryName: '$(Build.Repository.Name)'
-      action: 'create'
-      target: '$(Build.SourceVersion)'
-      tagSource: 'gitTag'
+      gitHubConnection: GitHub connection 1
+      repositoryName: $(Build.Repository.Name)
+      action: create
+      target: $(Build.SourceVersion)
+      tagSource: gitTag
       assets: |
         $(Build.ArtifactStagingDirectory)/*
         src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/*
       isDraft: true
       isPreRelease: true
-      changeLogCompareToRelease: 'lastFullRelease'
-      changeLogType: 'commitBased'
+      changeLogCompareToRelease: lastFullRelease
+      changeLogType: commitBased
