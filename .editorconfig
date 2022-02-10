@@ -29,6 +29,8 @@ indent_size = 2
 # sln file
 [*.sln]
 indent_style = tab
+insert_final_newline = true
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
