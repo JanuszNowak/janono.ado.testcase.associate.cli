@@ -219,6 +219,7 @@ jobs:
       publishFeedCredentials: nuget.org_janono.ado.testcase.associate.cli
     enabled: false
     continueOnError: true
+
   - task: GitHubRelease@1
     displayName: GitHub release (create)
     inputs:
@@ -226,7 +227,9 @@ jobs:
       repositoryName: $(Build.Repository.Name)
       action: create
       target: $(Build.SourceVersion)
-      tagSource: gitTag
+      #tagSource: gitTag
+      tagSource: userSpecifiedTag
+      tag: '$(Build.SourceVersion)'
       assets: |
         $(Build.ArtifactStagingDirectory)/*
         src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/*
