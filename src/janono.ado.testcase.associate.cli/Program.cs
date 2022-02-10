@@ -195,7 +195,7 @@ namespace janono.ado.testcase.associate.cli
 
             var c = associationList.GroupBy(x => x.TestCaseId);
             var d = c.Where(c => c.Count() > 1).ToList();
-            if (d.Count() > 0)
+            if (d.Any())
             {
                 Exception ex = new Exception("More then one uniqe assosication exist in assocaition");
                 ex.Data.Add("More_Then_One_Association", d);
