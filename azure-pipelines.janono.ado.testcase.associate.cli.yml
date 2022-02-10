@@ -229,7 +229,7 @@ jobs:
       target: $(Build.SourceVersion)
       #tagSource: gitTag
       tagSource: userSpecifiedTag
-      tag: '$(Build.SourceVersion)'
+      tag: $(Build.SourceVersion)
       assets: |
         $(Build.ArtifactStagingDirectory)/*
         src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/*
