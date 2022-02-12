@@ -158,6 +158,43 @@ jobs:
   - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
     displayName: dotnet publish
 
+  - script: dotnet publish --runtime win-x64 --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
+    displayName: dotnet publish win-x64
+
+  - script: dotnet publish --runtime linux-x64 --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
+    displayName: dotnet publish osx-x64
+
+  - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
+    displayName: dotnet publish osx-x64
+
+  - task: ArchiveFiles@2
+    displayName: 'zip portable'
+    inputs:
+      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/'
+      archiveType: zip
+      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/portable.zip'
+
+  - task: ArchiveFiles@2
+    displayName: 'zip win-x64'
+    inputs:
+      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/win-x64/'
+      archiveType: zip
+      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/win-x64.zip'
+
+  - task: ArchiveFiles@2
+    displayName: 'zip linux-x64'
+    inputs:
+      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/linux-x64/'
+      archiveType: zip
+      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/linux-x64.zip'
+
+  - task: ArchiveFiles@2
+    displayName: 'zip osx-x64'
+    inputs:
+      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/osx-x64/'
+      archiveType: zip
+      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/osx-x64.zip'
+
   - task: NuGetCommand@2
     displayName: NuGet push
     inputs:
@@ -232,7 +269,7 @@ jobs:
       tag: $(Build.SourceVersion)
       assets: |
         $(Build.ArtifactStagingDirectory)/*
-        src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/*
+        src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/*.zip
       isDraft: true
       isPreRelease: true
       changeLogCompareToRelease: lastFullRelease
