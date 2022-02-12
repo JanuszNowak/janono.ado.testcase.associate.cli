@@ -103,8 +103,8 @@ jobs:
 - job: AgentJobMain
   displayName: Agent job - Main
   pool:
-    vmImage: ubuntu-latest
-    #vmImage: windows-latest
+    #vmImage: ubuntu-latest
+    vmImage: windows-latest
   steps:
   - task: gitversion/setup@0
     displayName: gitversion/setup
