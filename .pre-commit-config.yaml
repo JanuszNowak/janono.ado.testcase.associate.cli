@@ -1,0 +1,44 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.1.0
+  hooks:
+  - id: check-json
+  - id: pretty-format-json
+    args: [--autofix, --no-sort-keys]
+  - id: check-yaml
+  - id: check-xml
+  - id: check-executables-have-shebangs
+  - id: check-merge-conflict
+  - id: trailing-whitespace
+    args: [--markdown-linebreak-ext=md]
+  - id: no-commit-to-branch
+    args: [--branch, develop, --branch, master]
+
+#dotnet
+
+- repo: https://github.com/dotnet/format
+  rev: v5.1.225507
+  hooks:
+  - id: dotnet-format
+
+# - repo: https://github.com/KuriharaJun/pre-commit-hooks-dotnet-core
+#   rev: v0.3
+#   hooks:
+#   - id: dotnet-test
+#     args: [janono.ado.testcase.associate.sln]
+#file formating
+- repo: https://github.com/editorconfig-checker/editorconfig-checker.python
+  rev: 2.4.0
+  hooks:
+  - id: editorconfig-checker
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.2.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent, '2']
+- repo: https://github.com/sirosen/check-jsonschema
+  rev: 0.10.2
+  hooks:
+  - id: check-github-workflows
+  - id: check-github-actions
+  - id: check-azure-pipelines
