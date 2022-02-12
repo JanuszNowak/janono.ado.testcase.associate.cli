@@ -8,7 +8,6 @@ namespace janono.ado.testcase.associate.cli
     {
         private static readonly ConcurrentDictionary<string, bool> AssemblyDirectories = new ConcurrentDictionary<string, bool>();
 
-
         public static Assembly LoadWithDependencies(string assemblyPath)
         {
             AssemblyDirectories[Path.GetDirectoryName(assemblyPath)] = true;

@@ -24,6 +24,12 @@
     <title>janono.ado.testcase.associate</title>
     <StartupObject>janono.ado.testcase.associate.cli.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="janono.ado.testcase.associate" Version="0.1.0" />

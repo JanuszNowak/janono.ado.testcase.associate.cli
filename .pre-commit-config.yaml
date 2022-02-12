@@ -39,27 +39,6 @@ repos:
 - repo: https://github.com/sirosen/check-jsonschema
   rev: 0.10.2
   hooks:
-  #- id: check-jsonschema
   - id: check-github-workflows
   - id: check-github-actions
   - id: check-azure-pipelines
-
-    # - repo: https://github.com/smarterhq/shq_pre-commit_docker_powershell
-  #   rev: d13a001d03a2a6fd1cd2937c869bfd06871e9bd1 # Fill this in with a current revision
-  #   hooks:
-  #     - id: powershell-scriptanalyzer-docker
-  #- repo: https://github.com/JanuszNowak/pre-commit-hooks-powershell
-  #rev: af67155b62c9a7af6fe4148ad0049feb81a9d2a5
-  #hooks:
-  #- id: powershell-check
-  # - repo: local
-  #   hooks:
-  #     - id: powershell-check-local
-  #       name: powershell-check-localst
-  #       entry: pwsh -c Invoke-ScriptAnalyzer
-  #       language: system
-  #       files: '\.(ps1)$'
-#commit message
-#powershell static code anliste
-#dotnet build
-#emial check
