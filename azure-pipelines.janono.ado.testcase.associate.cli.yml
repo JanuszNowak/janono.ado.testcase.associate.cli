@@ -168,11 +168,11 @@ jobs:
     displayName: dotnet publish osx-x64
 
   - task: ArchiveFiles@2
-    displayName: 'zip portable'
+    displayName: zip portable
     inputs:
-      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/'
+      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/
       archiveType: zip
-      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli.zip'
+      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli.zip
 
   # - task: ArchiveFiles@2
   #   displayName: 'zip win-x64'
