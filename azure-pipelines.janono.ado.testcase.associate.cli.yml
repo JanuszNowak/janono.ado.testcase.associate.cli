@@ -9,6 +9,8 @@ pr:
     - master
     - develop
     - releases/*
+    - hotfix/*
+    - feature/*
     exclude:
     - releases/old*
   paths:
