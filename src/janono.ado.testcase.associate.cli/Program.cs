@@ -37,7 +37,7 @@ namespace janono.ado.testcase.associate.cli
             };
             rootCommand.Description = "A app for automatically associate automated tests with test cases cli.";
 
-            rootCommand.Handler = CommandHandler.Create<AuthenticationMethod, string?, Action, string>((optionAuthenticationType, optionAuthenticationToken, optionAction, optionPath) =>
+            rootCommand.Handler = CommandHandler.Create<AuthenticationMethod, string, Action, string>((optionAuthenticationType, optionAuthenticationToken, optionAction, optionPath) =>
             {
                 DoWork(optionAuthenticationType, authValue, optionAction, path);
             });
@@ -65,7 +65,7 @@ namespace janono.ado.testcase.associate.cli
             return rootCommand.Invoke(args);
         }
 
-        internal static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path)
+        public static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path)
         {
             optionAction = action;
             var associationList = ScanAssemblyForTestCase(path);
@@ -143,10 +143,12 @@ namespace janono.ado.testcase.associate.cli
 
         public static void CheckAssignedAutomationOnOrganizationList(List<Association> assoscationList, HttpClient client)
         {
-            //foreach (Association x in assoscationList)
-            //{
-            //    CheckAssignedAutomationOnOrganization(x);
-            //}
+            /*
+            foreach (Association x in assoscationList)
+            {
+                CheckAssignedAutomationOnOrganization(x);
+            }
+            */
 
             Parallel.ForEach(assoscationList, new ParallelOptions { MaxDegreeOfParallelism = 16 }, x =>
             {
@@ -164,10 +166,10 @@ namespace janono.ado.testcase.associate.cli
             try
             {
                 types = assm.GetTypes();
-                //foreach (Type type in types)
-                //{
-                // Console.WriteLine(type.FullName);
-                //}
+                /*foreach (Type type in types)
+                {
+                    Console.WriteLine(type.FullName);
+                }*/
             }
             catch (Exception ex)
             {
@@ -195,7 +197,7 @@ namespace janono.ado.testcase.associate.cli
 
             var c = associationList.GroupBy(x => x.TestCaseId);
             var d = c.Where(c => c.Count() > 1).ToList();
-            if (d.Count() > 0)
+            if (d.Any())
             {
                 Exception ex = new Exception("More then one uniqe assosication exist in assocaition");
                 ex.Data.Add("More_Then_One_Association", d);
@@ -203,15 +205,6 @@ namespace janono.ado.testcase.associate.cli
             }
 
             return associationList;
-        }
-
-        public class Element
-        {
-            public string op { get; set; }
-
-            public string path { get; set; }
-
-            public string value { get; set; }
         }
 
         public static async void AssigneAutomation(Association aso, HttpClient client)
