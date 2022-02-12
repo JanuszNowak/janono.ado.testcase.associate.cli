@@ -157,14 +157,14 @@ jobs:
   - script: dotnet pack  --configuration $(buildConfiguration) --include-symbols --output '$(Build.ArtifactStagingDirectory)'  /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true
     displayName: dotnet pack
 
-  - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true --self-contained false
-    displayName: dotnet publish
+  # - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true --self-contained false
+  #   displayName: dotnet publish
 
   - script: dotnet publish --runtime win-x64 --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true --self-contained false
     displayName: dotnet publish win-x64
 
   - script: dotnet publish --runtime linux-x64 --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true --self-contained false
-    displayName: dotnet publish osx-x64
+    displayName: dotnet publish linux-x64
 
   - script: dotnet publish --configuration $(buildConfiguration) /p:Version=$(GitVersion.FullSemVer) /p:AssemblyVersion=$(GitVersion.AssemblySemVer) /p:FileVersion=$(GitVersion.AssemblySemFileVer) /m /p:AssemblyOriginatorKeyFile=$(janonosnk.secureFilePath) /p:SignAssembly=true --self-contained false
     displayName: dotnet publish osx-x64
@@ -177,25 +177,25 @@ jobs:
       archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli.zip
 
   - task: ArchiveFiles@2
-    displayName: 'zip win-x64'
+    displayName: zip win-x64
     inputs:
-      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/win-x64/publish'
+      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/win-x64/publish
       archiveType: zip
-      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_win-x64.zip'
+      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_win-x64.zip
 
   - task: ArchiveFiles@2
-    displayName: 'zip linux-x64'
+    displayName: zip linux-x64
     inputs:
-      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/linux-x64/publish'
+      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/linux-x64/publish
       archiveType: zip
-      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_linux-x64.zip'
+      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_linux-x64.zip
 
-  - task: ArchiveFiles@2
-    displayName: 'zip osx-x64'
-    inputs:
-      rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/osx-x64/publish'
-      archiveType: zip
-      archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_osx-x64.zip'
+  # - task: ArchiveFiles@2
+  #   displayName: 'zip osx-x64'
+  #   inputs:
+  #     rootFolderOrFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/osx-x64/publish'
+  #     archiveType: zip
+  #     archiveFile: 'src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_osx-x64.zip'
 
   - task: NuGetCommand@2
     displayName: NuGet push
