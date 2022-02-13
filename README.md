@@ -1,5 +1,8 @@
-# janono.ado.testcase.associate.cli
- janono.ado.testcase.associate.cli
+# janono.ado.testcase.associate
+janono.ado.testcase.associate
+[![Build Status](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_apis/build/status/janono.ado.testcase.associate-ci%20dotnet%206.0?branchName=master)](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_build/latest?definitionId=33&branchName=master)
+
+janono.ado.testcase.associate.cli
  [![Build Status](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_apis/build/status/janono.ado.testcase.associate.cli-ci?branchName=master)](https://dev.azure.com/janono-pub/Janono.Ado.TestCase.Associate/_build/latest?definitionId=34&branchName=master)
 
 janono.ado.testcase.associate is an extension for automatic association of test methods from code to [Test Cases](https://docs.microsoft.com/en-us/azure/devops/test/create-a-test-plan?view=azure-devops) in [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) [Test Plans](https://azure.microsoft.com/en-us/services/devops/test-plans/).
@@ -161,7 +164,6 @@ All that you will repat or update  for each test case for with you have automati
 * Add support for [Azure devops server](https://azure.microsoft.com/pl-pl/services/devops/server/).
 * Add [Azure DevOps Marketplace](https://marketplace.visualstudio.com/) extension with dedicated build task for making automatic association.
 * Generate CLI for multiple platforms.
-
 
 ## Communication
 [Gitter](https://gitter.im/JanuszNowak/janono.ado.testcase.associate)
