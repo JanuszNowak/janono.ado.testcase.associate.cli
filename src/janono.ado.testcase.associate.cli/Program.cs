@@ -5,9 +5,12 @@ using System.CommandLine.Invocation;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Newtonsoft.Json;
 using Spectre.Console;
 
@@ -21,25 +24,35 @@ namespace janono.ado.testcase.associate.cli
 
         private static Action action;
 
+        private static string url;
+
+        private static string instrumentationKey;
+
+        private static TelemetryClient telemetryClient;
+
         public static int Main(string[] args)
         {
-            var optionAuthenticationType = new Option<AuthenticationMethod>(aliases: new string[] { "--authMethod", "-am" }, description: "Authentication method Oauth Token, PAT,Basic") { IsRequired = true };
+            var optionAuthenticationType = new Option<AuthenticationMethod>(aliases: new string[] { "--authMethod", "-am" }, description: "Authentication method Oauth Token, PAT") { IsRequired = true };
             var optionAuthenticationToken = new Option<string>("--authValue", description: "The password, Personal Access Token or OAuth Token to authenticate") { IsRequired = true };
             var optionAction = new Option<Action>(aliases: new string[] { "--action" }, description: "Action") { IsRequired = true };
             var optionPath = new Option<string>(aliases: new string[] { "--path" }, description: "Path to dll with tests, supporting '*' wildcards.") { IsRequired = true };
+            var optionUrlAdoOrganization = new Option<string>(aliases: new string[] { "--url" }, description: "URL of the server. For example: https://dev.azure.com/myorganization or http://my-azure-devops-server:8080/tfs") { IsRequired = true };
+            var optionApplicationInsights = new Option<string>(aliases: new string[] { "--instrumentationKey" }, description: "Azure Application Insights Instrumentation Key for logging https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview") { IsRequired = false };
 
             var rootCommand = new RootCommand
             {
                 optionAuthenticationType,
                 optionAuthenticationToken,
                 optionAction,
-                optionPath
+                optionPath,
+                optionUrlAdoOrganization,
+                optionApplicationInsights
             };
             rootCommand.Description = "A app for automatically associate automated tests with test cases cli.";
 
             rootCommand.Handler = CommandHandler.Create<AuthenticationMethod, string, Action, string>((optionAuthenticationType, optionAuthenticationToken, optionAction, optionPath) =>
             {
-                DoWork(optionAuthenticationType, authValue, optionAction, path);
+                DoWork(optionAuthenticationType, authValue, optionAction, path, url);
             });
             AnsiConsole.Write(new FigletText("janono.ado.testcase.associate.cli").Color(new Color(102, 51, 153)));
 
@@ -60,15 +73,35 @@ namespace janono.ado.testcase.associate.cli
                 {
                     action = (janono.ado.testcase.associate.cli.Action)Enum.Parse(typeof(janono.ado.testcase.associate.cli.Action), args[i + 1].ToString());
                 }
+
+                if (args[i] == "--url")
+                {
+                    url = args[i + 1];
+                }
+
+
+                if (args[i] == "--instrumentationKey")
+                {
+                    instrumentationKey = args[i + 1];
+                }
+            }
+
+            if (string.IsNullOrEmpty(instrumentationKey) == false)
+            {
+                TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
+                configuration.InstrumentationKey = instrumentationKey;
+                telemetryClient = new TelemetryClient(configuration);
             }
 
             return rootCommand.Invoke(args);
         }
 
-        public static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path)
+        public static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path, string url)
         {
+
             optionAction = action;
-            var associationList = ScanAssemblyForTestCase(path);
+            AnsiConsole.WriteLine($"Action: {optionAction}, url: {url}, authentication Type: {optionAuthenticationType}, path: {path}");
+            var associationList = ScanAssemblyForTestCase(path, url);
 
             var table = new Table() { Title = new TableTitle("Tests found in assemblies") };
             table.AddColumn("Organization");
@@ -83,7 +116,7 @@ namespace janono.ado.testcase.associate.cli
 
             AnsiConsole.Write(table);
 
-            var client = GetHttpAdoClient("PAT", authValue);
+            var client = GetHttpAdoClient(optionAuthenticationType, authValue);
 
             if ((optionAction == Action.List) || (optionAction == Action.Associate))
             {
@@ -124,12 +157,20 @@ namespace janono.ado.testcase.associate.cli
             }
         }
 
-        public static HttpClient GetHttpAdoClient(string authType, string authValue)
+        public static HttpClient GetHttpAdoClient(AuthenticationMethod authType, string authValue)
         {
             HttpClient client = new HttpClient();
-            var pat = authValue;
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{string.Empty}:{pat}")));
+            if (authType == AuthenticationMethod.PAT)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{string.Empty}:{authValue}")));
+            }
+            else
+            if (authType == AuthenticationMethod.oAuth)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{authValue}");
+            }
+
             return client;
         }
 
@@ -156,7 +197,7 @@ namespace janono.ado.testcase.associate.cli
             });
         }
 
-        public static List<Association> ScanAssemblyForTestCase(string path)
+        public static List<Association> ScanAssemblyForTestCase(string path, string url)
         {
             Assembly assm = AssemblyLoader.LoadWithDependencies(path);
 
@@ -191,7 +232,7 @@ namespace janono.ado.testcase.associate.cli
                 var attrs = entry.Value.GetCustomAttributes(typeof(janono.ado.testcase.associate.TestCaseAttribute), false);
                 var b = ((janono.ado.testcase.associate.TestCaseAttribute)attrs[0]).testCaseId;
                 var assemblyStorage = entry.Value.ReflectedType.Assembly.ManifestModule.Name;
-                var association = new Association() { Organization = org.ToString(), Assembly = assemblyStorage.ToString(), Method = entry.Value.DeclaringType.FullName + "." + entry.Value.Name, TestCaseId = b };
+                var association = new Association() { Organization = url, Assembly = assemblyStorage.ToString(), Method = entry.Value.DeclaringType.FullName + "." + entry.Value.Name, TestCaseId = b };
                 associationList.Add(association);
             }
 
@@ -242,7 +283,8 @@ namespace janono.ado.testcase.associate.cli
                 var stringPayload = System.Text.Json.JsonSerializer.Serialize(payload);
 
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json-patch+json");
-                string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                //string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                string url = $"{aso.Organization}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
                 using (HttpResponseMessage response = client.PatchAsync(url, httpContent).Result)
                 {
                     response.EnsureSuccessStatusCode();
@@ -260,7 +302,8 @@ namespace janono.ado.testcase.associate.cli
         {
             try
             {
-                string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                //string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                string url = $"{aso.Organization}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
                 using (HttpResponseMessage response = client.GetAsync(url).Result)
                 {
                     response.EnsureSuccessStatusCode();
