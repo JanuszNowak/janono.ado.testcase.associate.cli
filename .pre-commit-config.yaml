@@ -16,10 +16,10 @@ repos:
 
 #dotnet
 
-- repo: https://github.com/dotnet/format
-  rev: v5.1.225507
-  hooks:
-  - id: dotnet-format
+# - repo: https://github.com/dotnet/format
+#   rev: v5.1.225507
+#   hooks:
+#   - id: dotnet-format
 
 # - repo: https://github.com/KuriharaJun/pre-commit-hooks-dotnet-core
 #   rev: v0.3
