@@ -32,12 +32,12 @@ repos:
   hooks:
   - id: editorconfig-checker
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.2.0
+  rev: v2.3.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
 - repo: https://github.com/sirosen/check-jsonschema
-  rev: 0.10.2
+  rev: 0.14.2
   hooks:
   - id: check-github-workflows
   - id: check-github-actions
