@@ -32,7 +32,7 @@ namespace janono.ado.testcase.associate.cli
 
         public static int Main(string[] args)
         {
-            var optionAuthenticationType = new Option<AuthenticationMethod>(aliases: new string[] { "--authMethod", "-am" }, description: "Authentication method Oauth Token, PAT,Basic") { IsRequired = true };
+            var optionAuthenticationType = new Option<AuthenticationMethod>(aliases: new string[] { "--authMethod", "-am" }, description: "Authentication method Oauth Token, PAT") { IsRequired = true };
             var optionAuthenticationToken = new Option<string>("--authValue", description: "The password, Personal Access Token or OAuth Token to authenticate") { IsRequired = true };
             var optionAction = new Option<Action>(aliases: new string[] { "--action" }, description: "Action") { IsRequired = true };
             var optionPath = new Option<string>(aliases: new string[] { "--path" }, description: "Path to dll with tests, supporting '*' wildcards.") { IsRequired = true };
@@ -116,7 +116,7 @@ namespace janono.ado.testcase.associate.cli
 
             AnsiConsole.Write(table);
 
-            var client = GetHttpAdoClient("PAT", authValue);
+            var client = GetHttpAdoClient(optionAuthenticationType, authValue);
 
             if ((optionAction == Action.List) || (optionAction == Action.Associate))
             {
@@ -157,12 +157,20 @@ namespace janono.ado.testcase.associate.cli
             }
         }
 
-        public static HttpClient GetHttpAdoClient(string authType, string authValue)
+        public static HttpClient GetHttpAdoClient(AuthenticationMethod authType, string authValue)
         {
             HttpClient client = new HttpClient();
-            var pat = authValue;
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{string.Empty}:{pat}")));
+            if (authType == AuthenticationMethod.PAT)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes($"{string.Empty}:{authValue}")));
+            }
+            else
+            if (authType == AuthenticationMethod.oAuth)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{authValue}");
+            }
+
             return client;
         }
 
