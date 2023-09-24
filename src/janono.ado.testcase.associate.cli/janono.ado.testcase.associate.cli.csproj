@@ -32,11 +32,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="janono.ado.testcase.associate" Version="0.1.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Spectre.Console" Version="0.43.0" />
-    <PackageReference Include="Spectre.Console.ImageSharp" Version="0.43.0" />
+    <PackageReference Include="janono.ado.testcase.associate" Version="0.2.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.21.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Spectre.Console" Version="0.47.0" />
+    <PackageReference Include="Spectre.Console.ImageSharp" Version="0.47.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -79,7 +79,6 @@ namespace janono.ado.testcase.associate.cli
                     url = args[i + 1];
                 }
 
-
                 if (args[i] == "--instrumentationKey")
                 {
                     instrumentationKey = args[i + 1];
@@ -98,7 +97,6 @@ namespace janono.ado.testcase.associate.cli
 
         public static void DoWork(AuthenticationMethod optionAuthenticationType, string optionAuthenticationToken, Action optionAction, string path, string url)
         {
-
             optionAction = action;
             AnsiConsole.WriteLine($"Action: {optionAction}, url: {url}, authentication Type: {optionAuthenticationType}, path: {path}");
             var associationList = ScanAssemblyForTestCase(path, url);
@@ -283,8 +281,7 @@ namespace janono.ado.testcase.associate.cli
                 var stringPayload = System.Text.Json.JsonSerializer.Serialize(payload);
 
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json-patch+json");
-                //string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
-                string url = $"{aso.Organization}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                /* string url = $"{aso.Organization}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0"; */
                 using (HttpResponseMessage response = client.PatchAsync(url, httpContent).Result)
                 {
                     response.EnsureSuccessStatusCode();
@@ -302,7 +299,7 @@ namespace janono.ado.testcase.associate.cli
         {
             try
             {
-                //string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                /* string url = $"https://{aso.Organization}.visualstudio.com/DefaultCollection/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0"; */
                 string url = $"{aso.Organization}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
                 using (HttpResponseMessage response = client.GetAsync(url).Result)
                 {

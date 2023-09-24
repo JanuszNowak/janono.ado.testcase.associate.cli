@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample.for_unit_t_est.02", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample.for_unit_t_est.03", "samples\sample.for_unit_t_est.03\sample.for_unit_t_est.03.csproj", "{B5FAF295-843E-44D3-8BAB-EFBDA23B01B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sample.for_xunit_t_est.04", "samples\sample.for_xunit_t_est.04\sample.for_xunit_t_est.04.csproj", "{5B0994A0-2E37-4358-B153-23112483C13A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sample.for_xunit_t_est.04", "samples\sample.for_xunit_t_est.04\sample.for_xunit_t_est.04.csproj", "{5B0994A0-2E37-4358-B153-23112483C13A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

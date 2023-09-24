@@ -2,22 +2,22 @@ name: Renovate
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+  - cron: 0 0 * * *
   workflow_dispatch:
 
 jobs:
   renovate:
     runs-on: ubuntu-latest
     steps:
-      - uses: renovatebot/renovate@36.49.0
-        with:
+    - uses: renovatebot/renovate@36.49.0
+      with:
           # Set the GitHub token for authentication
-          token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
           # Set the platforms to update
-          platform: github
+        platform: github
           # Set the package files to update
-          packageFiles: |
-            package.json
-            yarn.lock
-          # Set the base branch for pull requests
-          baseBranches: master
+        packageFiles: |
+          package.json
+          yarn.lock
+         # Set the base branch for pull requests
+        baseBranches: master
