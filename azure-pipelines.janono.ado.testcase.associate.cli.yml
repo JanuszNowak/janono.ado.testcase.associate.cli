@@ -172,23 +172,23 @@ jobs:
   - task: ArchiveFiles@2
     displayName: zip portable
     inputs:
-      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/
+      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/publish/
       archiveType: zip
-      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli.zip
+      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/janono.ado.testcase.associate.cli.zip
 
   - task: ArchiveFiles@2
     displayName: zip win-x64
     inputs:
-      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/win-x64/publish
+      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/win-x64/publish
       archiveType: zip
-      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_win-x64.zip
+      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/janono.ado.testcase.associate.cli_win-x64.zip
 
   - task: ArchiveFiles@2
     displayName: zip linux-x64
     inputs:
-      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/linux-x64/publish
+      rootFolderOrFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/linux-x64/publish
       archiveType: zip
-      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/janono.ado.testcase.associate.cli_linux-x64.zip
+      archiveFile: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/janono.ado.testcase.associate.cli_linux-x64.zip
 
   # - task: ArchiveFiles@2
   #   displayName: 'zip osx-x64'
