@@ -24,8 +24,8 @@ pool:
 
 variables:
   buildConfiguration: Release
-  dotNetVersion: 6.0.x
-  dotNetFramework: net6.0
+  dotNetVersion: 8.0.x
+  dotNetFramework: net8.0
   targetRuntime: linux-x64
   projectKey: JanuszNowak_janono.ado.testcase.associate
   system.debug: true
