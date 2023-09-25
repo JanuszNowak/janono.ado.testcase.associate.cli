@@ -1,0 +1,18 @@
+# See ../DEPENDENCIES.md#workaround-for-other-dependencies
+name: Dependabot hack
+on: # yamllint disable-line rule:truthy
+  push:
+    branches:
+    - never-trigger-this-dependabot-hack-workflow
+  workflow_dispatch:
+
+jobs:
+  dependabot_hack:
+    name: Ensure dependabot version checks
+    runs-on: ubuntu-latest
+    steps:
+      # Dockerfile:
+    - uses: pre-commit/pre-commit@v3.3.3
+    - uses: dotnet/core@v8.0.0-rc.1
+
+

@@ -24,8 +24,8 @@ pool:
 
 variables:
   buildConfiguration: Release
-  dotNetVersion: 6.0.x
-  dotNetFramework: net6.0
+  dotNetVersion: 8.0.x
+  dotNetFramework: net8.0
   targetRuntime: linux-x64
   projectKey: JanuszNowak_janono.ado.testcase.associate
   system.debug: true
@@ -127,6 +127,16 @@ jobs:
       targetType: inline
       script: |
         Get-ChildItem env:
+
+  - task: UseDotNet@2
+    inputs:
+      version: 6.0.x
+      includePreviewVersions: true
+
+  - task: UseDotNet@2
+    inputs:
+      version: 7.0.x
+      includePreviewVersions: true
 
   - task: UseDotNet@2
     inputs:
@@ -238,7 +248,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: Publish Artifact
     inputs:
-      PathtoPublish: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/publish/
+      PathtoPublish: src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/publish/
       ArtifactName: publish
 
   - task: DotNetCoreCLI@2
@@ -262,7 +272,7 @@ jobs:
   - task: GitHubRelease@1
     displayName: GitHub release (create)
     inputs:
-      gitHubConnection: GitHub connection 1
+      gitHubConnection: github.com_JanuszNowak
       repositoryName: $(Build.Repository.Name)
       action: create
       target: $(Build.SourceVersion)
@@ -271,7 +281,7 @@ jobs:
       tag: $(Build.SourceVersion)
       assets: |
         $(Build.ArtifactStagingDirectory)/*
-        src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net6.0/*.zip
+        src/janono.ado.testcase.associate.cli/bin/$(buildConfiguration)/net8.0/*.zip
       isDraft: true
       isPreRelease: true
       changeLogCompareToRelease: lastFullRelease
