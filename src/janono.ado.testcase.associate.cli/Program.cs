@@ -282,8 +282,8 @@ namespace janono.ado.testcase.associate.cli
 
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json-patch+json");
                 /* string url = $"{aso.Organization}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0"; */
-                 string url2 = $"{url}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
-                 using (HttpResponseMessage response = client.PatchAsync(url2, httpContent).Result)
+                string url2 = $"{url}/_apis/wit/workitems/{aso.TestCaseId}?api-version=1.0";
+                using (HttpResponseMessage response = client.PatchAsync(url2, httpContent).Result)
                 {
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
